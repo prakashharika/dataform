@@ -16,7 +16,8 @@
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                     <flux:navlist.item icon="document" :href="route('form.index')" :current="request()->routeIs('form.index')" wire:navigate>{{ __('Form') }}</flux:navlist.item>
                     <flux:navlist.item icon="cog" :href="route('form.record')" :current="request()->routeIs('form.record')" wire:navigate>{{ __('Record') }}</flux:navlist.item>
-                
+<flux:navlist.item icon="users" :href="route('customers.records')" :current="request()->routeIs('customers.records')" wire:navigate>{{ __('Customer Records') }}</flux:navlist.item>                
+<flux:navlist.item icon="user" :href="route('customers.index')" :current="request()->routeIs('customers.index')" wire:navigate>{{ __('Customer From') }}</flux:navlist.item>                
                     @if(Auth::id() == 1)
                         <flux:navlist.item icon="chart-bar" :href="route('form.charts')" :current="request()->routeIs('form.charts')" wire:navigate>{{ __('Analytics') }}</flux:navlist.item>
                     @endif

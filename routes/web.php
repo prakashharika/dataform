@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FormController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -24,6 +25,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/records/{record}', [FormController::class, 'show'])->name('form.show');
     Route::delete('/records/{record}', [FormController::class, 'destroy'])->name('form.destroy');
     Route::post('/form/save', [FormController::class, 'store'])->name('form.store');
+    // routes/web.php
+
+    // Customer Routes
+    Route::prefix('customers')->group(function () {
+        Route::get('/form', [CustomerController::class, 'index'])->name('customers.index');
+        Route::post('/store', [CustomerController::class, 'store'])->name('customers.store');
+        Route::get('/records', [CustomerController::class, 'records'])->name('customers.records');
+        Route::get('/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+        Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    });
 
     Volt::route('settings/profile', 'settings.profile')->name('profile.edit');
     Volt::route('settings/password', 'settings.password')->name('password.edit');

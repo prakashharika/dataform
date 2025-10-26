@@ -26,6 +26,7 @@ class FormController extends Controller
             'email' => 'required|email',
             'business_type' => 'required|string',
             'shop_address' => 'required|string',
+            'reference_video_link' => 'nullable|url|max:500',
 
             // Step 2 Validation
             'shop_type' => 'nullable|string',

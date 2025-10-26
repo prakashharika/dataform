@@ -29,11 +29,12 @@
             font-weight: 600;
             color: #495057;
             margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .info-value {
             color: #212529;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .section-title {
@@ -49,6 +50,26 @@
         .badge-warning { background-color: #ffc107; color: #000; }
         .badge-info { background-color: #0dcaf0; color: #000; }
         .badge-secondary { background-color: #6c757d; }
+        .badge-primary { background-color: #0d6efd; }
+        .badge-danger { background-color: #dc3545; }
+
+        .empty-value {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+        }
     </style>
 
     <div class="container-fluid py-4">
@@ -71,7 +92,7 @@
                         <form action="{{ route('form.destroy', $record) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure?')">
+                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this record?')">
                                 <i class="fas fa-trash me-2"></i>Delete
                             </button>
                         </form>
@@ -87,9 +108,33 @@
                         <h5 class="mb-0">
                             <i class="fas fa-store me-2"></i>
                             {{ $record->shop_name }}
+                            <small class="float-end">ID: #{{ $record->id }}</small>
                         </h5>
                     </div>
                     <div class="card-body">
+                        <!-- Created By -->
+                        @if($record->user)
+                        <div class="section-title">Created By</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">User</div>
+                                    <div class="info-value">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="user-avatar">
+                                                {{ substr($record->user->name, 0, 1) }}
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold">{{ $record->user->name }}</div>
+                                                <small class="text-muted">{{ $record->user->email }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
                         <!-- Basic Information -->
                         <div class="section-title">Basic Information</div>
                         <div class="row g-3">
@@ -101,27 +146,33 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="info-group">
+                                    <div class="info-label">Reference video link</div>
+                                    <div class="info-value">{{ $record->reference_video_link }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-group">
                                     <div class="info-label">Client Name</div>
                                     <div class="info-value">{{ $record->client_name }}</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <div class="info-label">Contact Information</div>
-                                    <div class="info-value">
-                                        <div><i class="fas fa-phone me-2"></i>{{ $record->mobile_number }}</div>
-                                        <div><i class="fas fa-envelope me-2"></i>{{ $record->email }}</div>
-                                    </div>
+                                    <div class="info-label">Mobile Number</div>
+                                    <div class="info-value">{{ $record->mobile_number }}</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <div class="info-label">Business Details</div>
+                                    <div class="info-label">Email Address</div>
+                                    <div class="info-value">{{ $record->email }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">Business Type</div>
                                     <div class="info-value">
                                         <span class="badge badge-info">{{ $record->business_type }}</span>
-                                        @if($record->shop_type)
-                                            <span class="badge badge-secondary ms-1">{{ $record->shop_type }}</span>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -133,128 +184,402 @@
                             </div>
                         </div>
 
-                        <!-- Retailer Questions -->
-                        @if($record->shop_type || $record->number_of_employees)
-                        <div class="section-title">Retailer Information</div>
+                        <!-- Retailer Questions - Section 1 -->
+                        <div class="section-title">Retailer Information - Business Details</div>
                         <div class="row g-3">
-                            @if($record->shop_type)
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <div class="info-label">Shop Type</div>
-                                    <div class="info-value">{{ $record->shop_type }}</div>
+                                    <div class="info-label">1. Shop Type</div>
+                                    <div class="info-value">
+                                        @if($record->shop_type)
+                                            {{ $record->shop_type }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            @endif
                             
-                            @if($record->number_of_employees)
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <div class="info-label">Number of Employees</div>
-                                    <div class="info-value">{{ $record->number_of_employees }}</div>
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($record->operating_since)
-                            <div class="col-md-6">
-                                <div class="info-group">
-                                    <div class="info-label">Operating Since</div>
-                                    <div class="info-value">{{ $record->operating_since }}</div>
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($record->enrolled_in_ecommerce !== null)
-                            <div class="col-md-6">
-                                <div class="info-group">
-                                    <div class="info-label">E-commerce Enrollment</div>
+                                    <div class="info-label">2. Number of Employees</div>
                                     <div class="info-value">
-                                        @if($record->enrolled_in_ecommerce)
-                                            <span class="badge badge-success">Yes</span>
-                                            @if($record->ecommerce_platforms)
-                                                <div class="mt-1"><small>Platforms: {{ $record->ecommerce_platforms }}</small></div>
-                                            @endif
+                                        @if($record->number_of_employees)
+                                            {{ $record->number_of_employees }}
                                         @else
-                                            <span class="badge badge-secondary">No</span>
+                                            <span class="empty-value">Not provided</span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            @endif
 
-                            @if($record->willing_to_partner !== null)
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <div class="info-label">Willing to Partner</div>
+                                    <div class="info-label">2. Shop Floor Size</div>
                                     <div class="info-value">
-                                        @if($record->willing_to_partner)
-                                            <span class="badge badge-success">Yes</span>
+                                        @if($record->shop_floor_size)
+                                            {{ $record->shop_floor_size }}
                                         @else
-                                            <span class="badge badge-secondary">No</span>
+                                            <span class="empty-value">Not provided</span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            @endif
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">2. Monthly Turnover</div>
+                                    <div class="info-value">
+                                        @if($record->monthly_turnover)
+                                            {{ $record->monthly_turnover }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">2. Customers per Day</div>
+                                    <div class="info-value">
+                                        @if($record->customers_per_day)
+                                            {{ $record->customers_per_day }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">3. Operating Since</div>
+                                    <div class="info-value">
+                                        @if($record->operating_since)
+                                            {{ $record->operating_since }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        @endif
 
-                        <!-- Consumer Questions -->
-                        @if($record->consumer_age || $record->consumer_income)
-                        <div class="section-title">Consumer Information</div>
+                        <!-- Retailer Questions - E-commerce Section -->
+                        <div class="section-title">Retailer Information - E-commerce & Digital</div>
                         <div class="row g-3">
-                            @if($record->consumer_age)
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <div class="info-label">Age</div>
-                                    <div class="info-value">{{ $record->consumer_age }}</div>
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($record->consumer_gender)
-                            <div class="col-md-6">
-                                <div class="info-group">
-                                    <div class="info-label">Gender</div>
-                                    <div class="info-value">{{ $record->consumer_gender }}</div>
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($record->consumer_income)
-                            <div class="col-md-6">
-                                <div class="info-group">
-                                    <div class="info-label">Income</div>
-                                    <div class="info-value">{{ $record->consumer_income }}</div>
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($record->would_use_quick_commerce !== null)
-                            <div class="col-md-6">
-                                <div class="info-group">
-                                    <div class="info-label">Would Use Quick Commerce</div>
+                                    <div class="info-label">4. Enrolled in E-commerce Platforms</div>
                                     <div class="info-value">
-                                        @if($record->would_use_quick_commerce)
+                                        @if($record->enrolled_in_ecommerce === 1)
                                             <span class="badge badge-success">Yes</span>
-                                        @else
+                                        @elseif($record->enrolled_in_ecommerce === 0)
                                             <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($record->enrolled_in_ecommerce === 1)
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">5. E-commerce Platforms Used</div>
+                                    <div class="info-value">
+                                        @if($record->ecommerce_platforms)
+                                            {{ $record->ecommerce_platforms }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">5. E-commerce Usage Duration</div>
+                                    <div class="info-value">
+                                        @if($record->ecommerce_usage_duration)
+                                            {{ $record->ecommerce_usage_duration }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">6. Offline Sales Percentage</div>
+                                    <div class="info-value">
+                                        @if($record->offline_sales_percentage)
+                                            {{ $record->offline_sales_percentage }}%
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">6. Online Sales Percentage</div>
+                                    <div class="info-value">
+                                        @if($record->online_sales_percentage)
+                                            {{ $record->online_sales_percentage }}%
+                                        @else
+                                            <span class="empty-value">Not provided</span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                             @endif
-                        </div>
-                        @endif
 
-                        <!-- Additional Notes -->
-                        @if($record->quick_commerce_future_view || $record->viability_changes)
-                        <div class="section-title">Additional Comments</div>
+                            <div class="col-12">
+                                <div class="info-group">
+                                    <div class="info-label">7. Order Reception Methods</div>
+                                    <div class="info-value">
+                                        @if($record->order_reception_methods)
+                                            {{ $record->order_reception_methods }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Retailer Questions - Quick Commerce Section -->
+                        <div class="section-title">Retailer Information - Quick Commerce</div>
                         <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">8. Knows About Quick Commerce</div>
+                                    <div class="info-value">
+                                        @if($record->knows_quick_commerce === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->knows_quick_commerce === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">9. Participates in Quick Commerce</div>
+                                    <div class="info-value">
+                                        @if($record->participates_quick_commerce === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->participates_quick_commerce === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($record->quick_commerce_effect)
+                            <div class="col-12">
+                                <div class="info-group">
+                                    <div class="info-label">10. Quick Commerce Effects</div>
+                                    <div class="info-value">{{ $record->quick_commerce_effect }}</div>
+                                </div>
+                            </div>
+                            @endif
+
+                            @if($record->barriers_not_participating)
+                            <div class="col-12">
+                                <div class="info-group">
+                                    <div class="info-label">10. Barriers to Participation</div>
+                                    <div class="info-value">{{ $record->barriers_not_participating }}</div>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">11. Willing to Partner</div>
+                                    <div class="info-value">
+                                        @if($record->willing_to_partner === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->willing_to_partner === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($record->required_incentives)
+                            <div class="col-12">
+                                <div class="info-group">
+                                    <div class="info-label">12. Required Incentives</div>
+                                    <div class="info-value">{{ $record->required_incentives }}</div>
+                                </div>
+                            </div>
+                            @endif
+
+                            @if($record->concerns_about_platform)
+                            <div class="col-12">
+                                <div class="info-group">
+                                    <div class="info-label">13. Concerns About Platform</div>
+                                    <div class="info-value">{{ $record->concerns_about_platform }}</div>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">14. Digital Orders Handling</div>
+                                    <div class="info-value">
+                                        @if($record->digital_orders_handling)
+                                            {{ $record->digital_orders_handling }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">15. Customers Ask for Delivery</div>
+                                    <div class="info-value">
+                                        @if($record->customers_ask_delivery === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->customers_ask_delivery === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">16. Local Delivery Exists</div>
+                                    <div class="info-value">
+                                        @if($record->local_delivery_exists === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->local_delivery_exists === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">17. Delivery Cost</div>
+                                    <div class="info-value">
+                                        @if($record->delivery_cost)
+                                            {{ $record->delivery_cost }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">18. Stock Variety Adequate</div>
+                                    <div class="info-value">
+                                        @if($record->stock_variety_adequate === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->stock_variety_adequate === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">19. Delivery Radius</div>
+                                    <div class="info-value">
+                                        @if($record->delivery_radius)
+                                            {{ $record->delivery_radius }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">20. Digital Assistance Available</div>
+                                    <div class="info-value">
+                                        @if($record->digital_assistance_available === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->digital_assistance_available === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">21. Comfortable with Apps</div>
+                                    <div class="info-value">
+                                        @if($record->comfortable_with_apps === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->comfortable_with_apps === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">22. Product Margins</div>
+                                    <div class="info-value">
+                                        @if($record->product_margins)
+                                            {{ $record->product_margins }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">23. Cost Absorption Ability</div>
+                                    <div class="info-value">
+                                        @if($record->cost_absorption_ability)
+                                            {{ $record->cost_absorption_ability }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
                             @if($record->quick_commerce_future_view)
                             <div class="col-12">
                                 <div class="info-group">
-                                    <div class="info-label">Future View of Quick Commerce</div>
+                                    <div class="info-label">24. Future View of Quick Commerce</div>
                                     <div class="info-value">{{ $record->quick_commerce_future_view }}</div>
                                 </div>
                             </div>
@@ -263,13 +588,156 @@
                             @if($record->viability_changes)
                             <div class="col-12">
                                 <div class="info-group">
-                                    <div class="info-label">Suggested Changes for Viability</div>
+                                    <div class="info-label">25. Suggested Changes for Viability</div>
                                     <div class="info-value">{{ $record->viability_changes }}</div>
                                 </div>
                             </div>
                             @endif
                         </div>
-                        @endif
+
+                        <!-- Consumer Questions -->
+                        <div class="section-title">Consumer Information</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">1. Age</div>
+                                    <div class="info-value">
+                                        @if($record->consumer_age)
+                                            {{ $record->consumer_age }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">1. Gender</div>
+                                    <div class="info-value">
+                                        @if($record->consumer_gender)
+                                            {{ $record->consumer_gender }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">1. Income</div>
+                                    <div class="info-value">
+                                        @if($record->consumer_income)
+                                            {{ $record->consumer_income }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">1. Profession</div>
+                                    <div class="info-value">
+                                        @if($record->consumer_profession)
+                                            {{ $record->consumer_profession }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">1. Household Size</div>
+                                    <div class="info-value">
+                                        @if($record->household_size)
+                                            {{ $record->household_size }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="info-group">
+                                    <div class="info-label">2. Living Location</div>
+                                    <div class="info-value">
+                                        @if($record->living_location)
+                                            {{ $record->living_location }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <div class="info-label">2. Shop Distance</div>
+                                    <div class="info-value">
+                                        @if($record->shop_distance)
+                                            {{ $record->shop_distance }}
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="info-group">
+                                    <div class="info-label">3. Has Internet Access</div>
+                                    <div class="info-value">
+                                        @if($record->has_internet_access === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->has_internet_access === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="info-group">
+                                    <div class="info-label">3. Uses Smartphone</div>
+                                    <div class="info-value">
+                                        @if($record->uses_smartphone === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->uses_smartphone === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="info-group">
+                                    <div class="info-label">3. Uses Apps Regularly</div>
+                                    <div class="info-value">
+                                        @if($record->uses_apps_regularly === 1)
+                                            <span class="badge badge-success">Yes</span>
+                                        @elseif($record->uses_apps_regularly === 0)
+                                            <span class="badge badge-secondary">No</span>
+                                        @else
+                                            <span class="empty-value">Not provided</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Continue with remaining consumer questions... -->
+                            <!-- Add all other consumer fields following the same pattern -->
+
+                        </div>
 
                         <!-- Timestamps -->
                         <div class="section-title">Submission Details</div>

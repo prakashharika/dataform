@@ -15,6 +15,7 @@ class ShopResearchForm extends Model
         'user_id', // Add user_id to fillable
         // Step 1
         'shop_name',
+        'reference_video_link',
         'client_name',
         'mobile_number',
         'email',

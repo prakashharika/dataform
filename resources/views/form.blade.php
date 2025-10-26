@@ -156,6 +156,13 @@
             color: #495057;
             margin-bottom: 0.5rem;
         }
+
+        .conditional-section {
+            display: none;
+            margin-left: 1rem;
+            padding-left: 1rem;
+            border-left: 3px solid #262626;
+        }
     </style>
 
     <div class="container py-5">
@@ -206,7 +213,17 @@
                                         <input type="text" name="client_name" id="client_name" class="form-control" placeholder="Enter client name" required>
                                     </div>
                                 </div>
-
+    <!-- Video Reference Section -->
+                        <div class="video-reference">
+                            <h5><i class="fas fa-video me-2"></i>Reference video link </h5>
+                            <div class="mb-3">
+                                <input type="url" name="reference_video_link" id="reference_video_link" class="form-control" 
+                                       placeholder="https://www.youtube.com/watch?v=example or https://drive.google.com/file/d/example/view" 
+                                       required>
+                                <small class="text-white-50">Please provide a YouTube, Google Drive, or other video sharing link</small>
+                            </div>
+                            </div>
+                            
                                 <p class="form-section-title">Contact Information</p>
                                 <div class="row g-3 mb-4">
                                     <div class="col-md-6">
@@ -249,6 +266,7 @@
                             <div class="form-section" id="section2">
                                 <p class="form-section-title">A. Questionnaire for Retailers / Shops / Supermarkets / Kirana Stores</p>
 
+                                <!-- Question 1 -->
                                 <div class="question-group">
                                     <div class="question-text">1. What type of shop is this?</div>
                                     <select name="shop_type" class="form-select">
@@ -262,6 +280,7 @@
                                     </select>
                                 </div>
 
+                                <!-- Question 2 -->
                                 <div class="question-group">
                                     <div class="question-text">2. Size of shop</div>
                                     <div class="row g-3">
@@ -284,11 +303,13 @@
                                     </div>
                                 </div>
 
+                                <!-- Question 3 -->
                                 <div class="question-group">
                                     <div class="question-text">3. How long has this shop been operating?</div>
                                     <input type="text" name="operating_since" class="form-control" placeholder="e.g., 5 years">
                                 </div>
 
+                                <!-- Question 4 -->
                                 <div class="question-group">
                                     <div class="question-text">4. Are you currently enrolled on any e-commerce / hyperlocal delivery / marketplace platforms?</div>
                                     <select name="enrolled_in_ecommerce" class="form-select" onchange="toggleEcommerceDetails(this.value)">
@@ -298,7 +319,8 @@
                                     </select>
                                 </div>
 
-                                <div id="ecommerceDetails" style="display: none;">
+                                <!-- Questions 5-6 (Conditional) -->
+                                <div id="ecommerceDetails" class="conditional-section">
                                     <div class="question-group">
                                         <div class="question-text">5. If yes, which ones, and how long have you been using them?</div>
                                         <div class="row g-3">
@@ -328,22 +350,175 @@
                                     </div>
                                 </div>
 
-                                <!-- Add more questions following the same pattern -->
+                                <!-- Question 7 -->
                                 <div class="question-group">
                                     <div class="question-text">7. How do you currently receive orders?</div>
                                     <textarea name="order_reception_methods" class="form-control" rows="2" placeholder="e.g., walk in, phone call, WhatsApp, delivery app, etc."></textarea>
                                 </div>
 
+                                <!-- Question 8 -->
                                 <div class="question-group">
                                     <div class="question-text">8. Do you know about quick commerce / ultrafast delivery services in your city?</div>
-                                    <select name="knows_quick_commerce" class="form-select">
+                                    <select name="knows_quick_commerce" class="form-select" onchange="toggleQuickCommerceDetails(this.value)">
                                         <option value="">-- Select --</option>
                                         <option value="1">Yes</option>
                                         <option value="0">No</option>
                                     </select>
                                 </div>
 
-                                <!-- Continue with remaining questions in similar pattern -->
+                                <!-- Question 9 -->
+                                <div class="question-group">
+                                    <div class="question-text">9. Is your shop participating in any quick commerce fulfillment?</div>
+                                    <select name="participates_quick_commerce" class="form-select" onchange="toggleParticipationDetails(this.value)">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Questions 10 (Conditional) -->
+                                <div id="participationDetails" class="conditional-section">
+                                    <div class="question-group">
+                                        <div class="question-text">10. If yes: what has been the effect so far? If not: why not (barriers)?</div>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label">Effects (if participating)</label>
+                                                <textarea name="quick_commerce_effect" class="form-control" rows="2" placeholder="Describe the effects..."></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Barriers (if not participating)</label>
+                                                <textarea name="barriers_not_participating" class="form-control" rows="2" placeholder="Describe the barriers..."></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question 11 -->
+                                <div class="question-group">
+                                    <div class="question-text">11. Would you be willing to enrol / partner with a local quick commerce platform?</div>
+                                    <select name="willing_to_partner" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 12 -->
+                                <div class="question-group">
+                                    <div class="question-text">12. What incentives or support would you need to do so?</div>
+                                    <textarea name="required_incentives" class="form-control" rows="2" placeholder="Describe required incentives..."></textarea>
+                                </div>
+
+                                <!-- Question 13 -->
+                                <div class="question-group">
+                                    <div class="question-text">13. What are the main concerns you have about joining a quick commerce platform?</div>
+                                    <textarea name="concerns_about_platform" class="form-control" rows="2" placeholder="Describe your concerns..."></textarea>
+                                </div>
+
+                                <!-- Question 14 -->
+                                <div class="question-group">
+                                    <div class="question-text">14. How well do you think your shop is placed to handle digital orders?</div>
+                                    <select name="digital_orders_handling" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="Very Well">Very Well</option>
+                                        <option value="Well">Well</option>
+                                        <option value="Moderately">Moderately</option>
+                                        <option value="Poorly">Poorly</option>
+                                        <option value="Not at all">Not at all</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 15 -->
+                                <div class="question-group">
+                                    <div class="question-text">15. Do customers in your area ask for delivery / quick delivery?</div>
+                                    <select name="customers_ask_delivery" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 16 -->
+                                <div class="question-group">
+                                    <div class="question-text">16. Are there existing local delivery services already fulfilling similar demands?</div>
+                                    <select name="local_delivery_exists" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 17 -->
+                                <div class="question-group">
+                                    <div class="question-text">17. What is the cost for your shop to fulfil small frequent delivery orders?</div>
+                                    <input type="text" name="delivery_cost" class="form-control" placeholder="e.g., ₹50 per delivery, 10% of order value, etc.">
+                                </div>
+
+                                <!-- Question 18 -->
+                                <div class="question-group">
+                                    <div class="question-text">18. Do you have stock & variety to meet instant order demand?</div>
+                                    <select name="stock_variety_adequate" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 19 -->
+                                <div class="question-group">
+                                    <div class="question-text">19. What delivery radius is feasible for your shop?</div>
+                                    <input type="text" name="delivery_radius" class="form-control" placeholder="e.g., 5 km, within same locality, etc.">
+                                </div>
+
+                                <!-- Question 20 -->
+                                <div class="question-group">
+                                    <div class="question-text">20. Does anyone in your family or among your staff help with digital tasks?</div>
+                                    <select name="digital_assistance_available" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 21 -->
+                                <div class="question-group">
+                                    <div class="question-text">21. Are you comfortable using mobile / apps for order / payment?</div>
+                                    <select name="comfortable_with_apps" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 22 -->
+                                <div class="question-group">
+                                    <div class="question-text">22. What margins do you get on typical products?</div>
+                                    <input type="text" name="product_margins" class="form-control" placeholder="e.g., 15-20%, ₹10-20 per item, etc.">
+                                </div>
+
+                                <!-- Question 23 -->
+                                <div class="question-group">
+                                    <div class="question-text">23. Would you be able to absorb additional costs or require higher selling price?</div>
+                                    <select name="cost_absorption_ability" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="Absorb costs">Absorb costs</option>
+                                        <option value="Require higher price">Require higher price</option>
+                                        <option value="Mix of both">Mix of both</option>
+                                        <option value="Not sure">Not sure</option>
+                                    </select>
+                                </div>
+
+                                <!-- Question 24 -->
+                                <div class="question-group">
+                                    <div class="question-text">24. How do you see the future of quick commerce / hyperlocal delivery in your area?</div>
+                                    <textarea name="quick_commerce_future_view" class="form-control" rows="2" placeholder="Share your views..."></textarea>
+                                </div>
+
+                                <!-- Question 25 -->
+                                <div class="question-group">
+                                    <div class="question-text">25. What changes would make it more viable?</div>
+                                    <textarea name="viability_changes" class="form-control" rows="2" placeholder="Suggest changes..."></textarea>
+                                </div>
 
                                 <div class="d-flex justify-content-between">
                                     <button type="button" class="btn btn-secondary" onclick="prevStep(1)">
@@ -359,6 +534,7 @@
                             <div class="form-section" id="section3">
                                 <p class="form-section-title">B. Questionnaire for Consumers / Users</p>
 
+                                <!-- Consumer Question 1 -->
                                 <div class="question-group">
                                     <div class="question-text">1. Personal Information</div>
                                     <div class="row g-3">
@@ -390,6 +566,7 @@
                                     </div>
                                 </div>
 
+                                <!-- Consumer Question 2 -->
                                 <div class="question-group">
                                     <div class="question-text">2. Where do you live and how far are shops from your home?</div>
                                     <div class="row g-3">
@@ -404,6 +581,7 @@
                                     </div>
                                 </div>
 
+                                <!-- Consumer Question 3 -->
                                 <div class="question-group">
                                     <div class="question-text">3. Do you have internet access / smartphone / use apps regularly?</div>
                                     <div class="row g-3">
@@ -434,7 +612,158 @@
                                     </div>
                                 </div>
 
-                                <!-- Continue with remaining consumer questions -->
+                                <!-- Consumer Question 4 -->
+                                <div class="question-group">
+                                    <div class="question-text">4. Do you currently use any platforms for buying groceries / essentials?</div>
+                                    <select name="uses_grocery_platforms" class="form-select" onchange="toggleGroceryPlatforms(this.value)">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Consumer Questions 5-6 (Conditional) -->
+                                <div id="groceryPlatformsDetails" class="conditional-section">
+                                    <div class="question-group">
+                                        <div class="question-text">5. Which platforms, how often, and what do you buy?</div>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Platforms Used</label>
+                                                <input type="text" name="platforms_used" class="form-control" placeholder="e.g., Blinkit, Zepto, etc.">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Shopping Frequency</label>
+                                                <input type="text" name="shopping_frequency" class="form-control" placeholder="e.g., Weekly, Monthly, etc.">
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Items Purchased</label>
+                                                <textarea name="items_purchased" class="form-control" rows="2" placeholder="What items do you typically buy?"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Consumer Question 6 -->
+                                <div class="question-group">
+                                    <div class="question-text">6. Are you aware of quick commerce services? Which ones?</div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Aware of Quick Commerce</label>
+                                            <select name="aware_quick_commerce" class="form-select">
+                                                <option value="">-- Select --</option>
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Known Services</label>
+                                            <input type="text" name="known_quick_commerce_services" class="form-control" placeholder="e.g., Blinkit, Zepto, Instamart">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Consumer Question 7 -->
+                                <div class="question-group">
+                                    <div class="question-text">7. Do any of these services currently deliver to your area?</div>
+                                    <select name="services_available_area" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Consumer Question 8 -->
+                                <div class="question-group">
+                                    <div class="question-text">8. In what situations do you feel quick delivery is useful?</div>
+                                    <textarea name="useful_situations" class="form-control" rows="2" placeholder="e.g., emergencies, busy days, etc."></textarea>
+                                </div>
+
+                                <!-- Consumer Question 9 -->
+                                <div class="question-group">
+                                    <div class="question-text">9. What item categories would you buy via quick commerce?</div>
+                                    <textarea name="preferred_categories" class="form-control" rows="2" placeholder="e.g., groceries, medicines, snacks, etc."></textarea>
+                                </div>
+
+                                <!-- Consumer Question 10 -->
+                                <div class="question-group">
+                                    <div class="question-text">10. What concerns do you have about using quick commerce?</div>
+                                    <textarea name="quick_commerce_concerns" class="form-control" rows="2" placeholder="Share your concerns..."></textarea>
+                                </div>
+
+                                <!-- Consumer Question 11 -->
+                                <div class="question-group">
+                                    <div class="question-text">11. What delivery time would you find acceptable?</div>
+                                    <input type="text" name="acceptable_delivery_time" class="form-control" placeholder="e.g., 10-15 minutes, 30 minutes, 1 hour">
+                                </div>
+
+                                <!-- Consumer Question 12 -->
+                                <div class="question-group">
+                                    <div class="question-text">12. How much extra are you willing to pay for fast delivery?</div>
+                                    <input type="text" name="extra_payment_willingness" class="form-control" placeholder="e.g., ₹10-20, 5-10%, etc.">
+                                </div>
+
+                                <!-- Consumer Question 13 -->
+                                <div class="question-group">
+                                    <div class="question-text">13. What factors affect your trust in a seller or delivery platform?</div>
+                                    <textarea name="trust_factors" class="form-control" rows="2" placeholder="e.g., reviews, brand reputation, etc."></textarea>
+                                </div>
+
+                                <!-- Consumer Question 14 -->
+                                <div class="question-group">
+                                    <div class="question-text">14. Have you had bad experiences with delivery / online orders?</div>
+                                    <select name="had_bad_experiences" class="form-select" onchange="toggleBadExperienceDetails(this.value)">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Consumer Question 14a (Conditional) -->
+                                <div id="badExperienceDetails" class="conditional-section">
+                                    <div class="question-group">
+                                        <div class="question-text">14a. Please describe the bad experience</div>
+                                        <textarea name="bad_experience_details" class="form-control" rows="2" placeholder="Describe the bad experience..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Consumer Question 15 -->
+                                <div class="question-group">
+                                    <div class="question-text">15. Would you prefer shopping from local kirana stores if they offer delivery?</div>
+                                    <select name="prefers_local_kirana_delivery" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Consumer Question 16 -->
+                                <div class="question-group">
+                                    <div class="question-text">16. Would you use a quick commerce platform if one sets up in your area?</div>
+                                    <select name="would_use_quick_commerce" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+
+                                <!-- Consumer Question 17 -->
+                                <div class="question-group">
+                                    <div class="question-text">17. How likely are you to be repeat customer if service is good?</div>
+                                    <select name="repeat_customer_likelihood" class="form-select">
+                                        <option value="">-- Select --</option>
+                                        <option value="Very Likely">Very Likely</option>
+                                        <option value="Likely">Likely</option>
+                                        <option value="Neutral">Neutral</option>
+                                        <option value="Unlikely">Unlikely</option>
+                                        <option value="Very Unlikely">Very Unlikely</option>
+                                    </select>
+                                </div>
+
+                                <!-- Consumer Question 18 -->
+                                <div class="question-group">
+                                    <div class="question-text">18. How do you plan your big grocery vs small urgent purchases?</div>
+                                    <textarea name="purchase_planning_method" class="form-control" rows="2" placeholder="Describe your shopping habits..."></textarea>
+                                </div>
 
                                 <div class="d-flex justify-content-between">
                                     <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
@@ -511,6 +840,25 @@
         function toggleEcommerceDetails(value) {
             const ecommerceDetails = document.getElementById('ecommerceDetails');
             ecommerceDetails.style.display = value === '1' ? 'block' : 'none';
+        }
+
+        function toggleQuickCommerceDetails(value) {
+            // You can add functionality here if needed
+        }
+
+        function toggleParticipationDetails(value) {
+            const participationDetails = document.getElementById('participationDetails');
+            participationDetails.style.display = value ? 'block' : 'none';
+        }
+
+        function toggleGroceryPlatforms(value) {
+            const groceryPlatformsDetails = document.getElementById('groceryPlatformsDetails');
+            groceryPlatformsDetails.style.display = value === '1' ? 'block' : 'none';
+        }
+
+        function toggleBadExperienceDetails(value) {
+            const badExperienceDetails = document.getElementById('badExperienceDetails');
+            badExperienceDetails.style.display = value === '1' ? 'block' : 'none';
         }
 
         // Initialize form

@@ -65,4 +65,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ShopResearchForm::class);
     }
+    public function customers(): HasMany
+    {
+        return $this->hasMany(Customer::class);
+    }
 }
