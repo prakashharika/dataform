@@ -13,13 +13,17 @@ class Customer extends Model
 
     protected $fillable = [
         'user_id',
+<<<<<<< HEAD
 
         // Question 1
+=======
+>>>>>>> e138d49 (Updated project with local changes)
         'age',
         'gender',
         'income',
         'profession',
         'household_size',
+<<<<<<< HEAD
 
         // Question 2
         'living_location',
@@ -71,6 +75,36 @@ class Customer extends Model
         'prefers_local_kirana_delivery',
     ];
 
+=======
+        'living_location',
+        'shop_distance',
+        'has_internet_access',
+        'uses_smartphone',
+        'uses_apps_regularly',
+        'uses_grocery_platforms',
+        'platforms_used',
+        'shopping_frequency',
+        'items_purchased',
+        'aware_quick_commerce',
+        'known_quick_commerce_services',
+        // Newly added (Q7–Q18)
+        'services_available_area',
+        'useful_situations',
+        'preferred_categories',
+        'quick_commerce_concerns',
+        'acceptable_delivery_time',
+        'extra_payment_willingness',
+        'trust_factors',
+        'had_bad_experiences',
+        'bad_experience_details',
+        'prefers_local_kirana_delivery',
+        'would_use_quick_commerce',
+        'repeat_customer_likelihood',
+        'planning_big_vs_small',
+    ];
+
+
+>>>>>>> e138d49 (Updated project with local changes)
     protected $casts = [
         'has_internet_access' => 'boolean',
         'uses_smartphone' => 'boolean',

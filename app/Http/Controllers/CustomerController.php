@@ -33,10 +33,15 @@ class CustomerController extends Controller
             'uses_smartphone' => 'nullable|boolean',
             'uses_apps_regularly' => 'nullable|boolean',
 
+<<<<<<< HEAD
             // Question 4
             'uses_grocery_platforms' => 'nullable|boolean',
 
             // Question 5 (conditional)
+=======
+            // Question 4–5
+            'uses_grocery_platforms' => 'nullable|boolean',
+>>>>>>> e138d49 (Updated project with local changes)
             'platforms_used' => 'nullable|string',
             'shopping_frequency' => 'nullable|string|max:255',
             'items_purchased' => 'nullable|string',
@@ -45,6 +50,7 @@ class CustomerController extends Controller
             'aware_quick_commerce' => 'nullable|boolean',
             'known_quick_commerce_services' => 'nullable|string',
 
+<<<<<<< HEAD
             // Question 7
             'services_available_area' => 'nullable|boolean',
 
@@ -78,11 +84,37 @@ class CustomerController extends Controller
         $validated['user_id'] = Auth::id();
 
         // Create the customer entry
+=======
+            // Question 7–15
+            'services_available_area' => 'nullable|string|max:255',
+            'useful_situations' => 'nullable|string',
+            'preferred_categories' => 'nullable|string',
+            'quick_commerce_concerns' => 'nullable|string',
+            'acceptable_delivery_time' => 'nullable|string|max:255',
+            'extra_payment_willingness' => 'nullable|string|max:255',
+            'trust_factors' => 'nullable|string',
+            'had_bad_experiences' => 'nullable|boolean',
+            'bad_experience_details' => 'nullable|string',
+            'prefers_local_kirana_delivery' => 'nullable|boolean',
+
+            // Question 16–18
+            'would_use_quick_commerce' => 'nullable|string|max:255',
+            'repeat_customer_likelihood' => 'nullable|string|max:255',
+            'planning_big_vs_small' => 'nullable|string',
+        ]);
+
+        $validated['user_id'] = Auth::id();
+
+>>>>>>> e138d49 (Updated project with local changes)
         Customer::create($validated);
 
         return redirect()->route('customers.index')->with('success', 'Customer form submitted successfully!');
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e138d49 (Updated project with local changes)
     public function records(Request $request)
     {
         $search = $request->get('search');

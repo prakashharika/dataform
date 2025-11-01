@@ -595,6 +595,7 @@
                             @endif
                         </div>
 
+<<<<<<< HEAD
                         <!-- Consumer Questions -->
                         <div class="section-title">Consumer Information</div>
                         <div class="row g-3">
@@ -739,6 +740,8 @@
 
                         </div>
 
+=======
+>>>>>>> e138d49 (Updated project with local changes)
                         <!-- Timestamps -->
                         <div class="section-title">Submission Details</div>
                         <div class="row g-3">
