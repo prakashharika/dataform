@@ -44,8 +44,6 @@
             padding-left: 1rem;
             border-left: 3px solid #262626;
         }
-<<<<<<< HEAD
-=======
 
          body { background: #f8fafc; }
         .form-card { background: #fff; border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); }
@@ -54,7 +52,6 @@
         .question-group { margin-bottom: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; }
         .question-text { font-weight: 600; color: #495057; margin-bottom: 0.5rem; }
         .conditional-section { display: none; margin-left: 1rem; padding-left: 1rem; border-left: 3px solid #262626; }
->>>>>>> e138d49 (Updated project with local changes)
     </style>
 
     <div class="container py-5">
@@ -204,11 +201,6 @@
                                 </div>
                             </div>
 
-<<<<<<< HEAD
-                            <!-- Continue with remaining questions... -->
-                            <!-- Add questions 7-15 following the same pattern -->
-
-=======
                             <!-- Question 7 -->
                             <div class="question-group">
                                 <div class="question-text">7. Do any of these services currently deliver to your area?</div>
@@ -312,7 +304,6 @@
                             </div>
 
                           
->>>>>>> e138d49 (Updated project with local changes)
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-success btn-lg">
                                     <i class="fas fa-save me-2"></i>Submit Customer Form
@@ -331,8 +322,6 @@
             platformDetails.style.display = value === '1' ? 'block' : 'none';
         }
     </script>
-<<<<<<< HEAD
-=======
 
       <script>
         function togglePlatformDetails(value) {
@@ -343,5 +332,4 @@
             document.getElementById('badExperienceDetails').style.display = value === '1' ? 'block' : 'none';
         }
     </script>
->>>>>>> e138d49 (Updated project with local changes)
 </x-layouts.app>
